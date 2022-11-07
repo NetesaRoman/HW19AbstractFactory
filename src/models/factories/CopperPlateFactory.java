@@ -47,4 +47,6 @@ public class CopperPlateFactory extends PlateFactory {
     public void run() {
         produce();
     }
+
+
 }

@@ -2,6 +2,7 @@ package models.factories;
 
 import models.api.Cable;
 import models.api.CableFactory;
+import models.api.Plate;
 import models.cables.CopperCable;
 import models.plates.CopperPlate;
 
@@ -27,7 +28,7 @@ public class CopperCableFactory extends CableFactory {
 
     public void consume() {
         while (isRunFlag()) {
-            CopperPlate plate;
+            Plate plate;
             if (getFoundry().isCopperPlateEmpty()) {
                 try {
                     getFoundry().waitOnEmpty();
@@ -41,14 +42,14 @@ public class CopperCableFactory extends CableFactory {
             plate = getFoundry().removeCopperPlate();
             System.out.println("Copper plate CONSUMED!!!!!!");
             getFoundry().notifyAllForFull();
-            produce();
+            produce(plate);
         }
     }
 
-    public void produce() {
+    public void produce(Plate plate) {
 
 
-            CopperCable cable = createCable();
+            CopperCable cable = createCable(plate);
 
             while (getFoundry().isCopperCableFull()) {
                 try {
@@ -66,8 +67,12 @@ public class CopperCableFactory extends CableFactory {
     }
 
 
-    public CopperCable createCable(){
+    public CopperCable createCable(Plate plate){
         System.out.println("CopperCableCreated");
-        return new CopperCable(1, 2,4);
+        return new CopperCable(
+                plate.getWeight() - 0.5,
+                plate.getWeight() + 2,
+                plate.getWeight() / 4
+        );
     }
 }

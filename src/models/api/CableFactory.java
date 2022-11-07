@@ -17,7 +17,7 @@ public abstract class CableFactory implements Runnable{
         runFlag = true;
     }
 
-    public abstract Cable createCable();
+    public abstract Cable createCable(Plate plate);
 
     public void stop() {
         runFlag = false;
